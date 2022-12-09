@@ -5,9 +5,24 @@ export const contactsSlice = createSlice({
   initialState: [],
   reducers: {
     contactsArray(data, action) {
-      data.push(action.payload);
+      switch (action.type) {
+        case 'contacts/contactsArray':
+          return [...data, action.payload];
+
+        default:
+          break;
+      }
+    },
+    deleteId(data, action) {
+      switch (action.type) {
+        case 'contacts/deleteId':
+          return data.filter(contact => contact.id !== action.payload);
+
+        default:
+          break;
+      }
     },
   },
 });
 
-export const { contactsArray } = contactsSlice.actions;
+export const { contactsArray, deleteId } = contactsSlice.actions;

@@ -1,5 +1,5 @@
 import Form from './PhoneBook/Form';
-// import Filter from './PhoneBook/Filter';
+import Filter from './PhoneBook/Filter';
 import { nanoid } from 'nanoid';
 import { ContainerForm } from './PhoneBook/PhoneBook.module';
 import { ToastContainer } from 'react-toastify';
@@ -7,16 +7,13 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Contacts from './Contacts/Contacts';
 import { useDispatch, useSelector } from 'react-redux';
-import { contactsArray } from 'redux/contactsSlice';
-// import { filterContacts } from 'redux/filterSlice';
+import { contactsArray, deleteId } from 'redux/contactsSlice';
+import { filterContacts } from 'redux/filterSlice';
 
 export default function App() {
   const contacts = useSelector(state => state.contacts);
   const filter = useSelector(state => state.filter);
   const dispatch = useDispatch();
-  // const [filter, setFilter] = useState('');
-
-  // dispatch(filterContacts(5));
 
   const addContacts = data => {
     const { name, number } = data;
@@ -39,18 +36,12 @@ export default function App() {
   };
 
   const deleteContact = contactId => {
-    contactsArray(prevState =>
-      prevState.filter(contact => contact.id !== contactId)
-    );
-    // contacts.filter(contact => contact.id !== contactId);
-    // contacts.filter(contact => console.log(contact.id === contactId));
-    // .filter(contact => contact.id !== contactId);
+    dispatch(deleteId(contactId));
   };
 
-  // const changeFilter = e => {
-  //   dispatch(filterContacts(e.currentTarget.value));
-  //   // filter(e.currentTarget.value);
-  // };
+  const changeFilter = e => {
+    dispatch(filterContacts(e.currentTarget.value));
+  };
 
   const normalizedFilter = filter.toLowerCase();
 
@@ -58,14 +49,13 @@ export default function App() {
     contact.name.toLowerCase().includes(normalizedFilter)
   );
 
-  // console.log(filter);
   return (
     <>
       <ContainerForm>
         <h1>Phonebook</h1>
         <Form onSubmit={addContacts} />
         <h2>Contacts</h2>
-        {/* <Filter value={filter} onChange={changeFilter} /> */}
+        <Filter value={filter} onChange={changeFilter} />
         <Contacts contacts={visibleContacts} onDeleteContact={deleteContact} />
       </ContainerForm>
       <ToastContainer autoClose={3000} />
