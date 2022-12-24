@@ -7,11 +7,11 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Contacts from './Contacts/Contacts';
 import { useDispatch, useSelector } from 'react-redux';
-import { contactsArray, deleteId } from 'redux/contactsSlice';
+import { contactsArray, deleteId, getContactsArray } from 'redux/contactsSlice';
 import { filterContacts } from 'redux/filterSlice';
 
 export default function App() {
-  const contacts = useSelector(state => state.contacts);
+  const contacts = useSelector(getContactsArray);
   const filter = useSelector(state => state.filter);
   const dispatch = useDispatch();
 
@@ -48,7 +48,8 @@ export default function App() {
   const visibleContacts = contacts.filter(contact =>
     contact.name.toLowerCase().includes(normalizedFilter)
   );
-
+  // console.log(visibleContacts);
+  console.log(contacts);
   return (
     <>
       <ContainerForm>
