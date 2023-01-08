@@ -9,7 +9,10 @@ const contactsSlice = createSlice({
     contactsArray(data, action) {
       switch (action.type) {
         case 'contacts/contactsArray':
+          // return [...data.contacts, action.payload];
+          // data += action.payload;
           data.contacts.push(action.payload);
+
           return;
         default:
           break;
@@ -18,11 +21,13 @@ const contactsSlice = createSlice({
     deleteId(data, action) {
       switch (action.type) {
         case 'contacts/deleteId':
-          return data.contacts.filter(contact => contact.id !== action.payload);
-
+          data.contacts.filter(contact => contact.id !== action.payload);
+          return;
         default:
           break;
       }
+      // console.log(action.type);
+      //  data.contacts.filter(contact => contact.id !== action.payload);
     },
   },
 });

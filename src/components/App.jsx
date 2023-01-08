@@ -43,13 +43,14 @@ export default function App() {
     dispatch(filterContacts(e.currentTarget.value));
   };
 
-  const normalizedFilter = filter.toLowerCase();
+  // const normalizedFilter = filter.toLowerCase();
 
-  const visibleContacts = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(normalizedFilter)
-  );
-  // console.log(visibleContacts);
+  // const visibleContacts = contacts.filter(contact =>
+  //   contact.name.toLowerCase().includes(normalizedFilter)
+  // );
+
   console.log(contacts);
+
   return (
     <>
       <ContainerForm>
@@ -57,7 +58,7 @@ export default function App() {
         <Form onSubmit={addContacts} />
         <h2>Contacts</h2>
         <Filter value={filter} onChange={changeFilter} />
-        <Contacts contacts={visibleContacts} onDeleteContact={deleteContact} />
+        <Contacts contacts={contacts} onDeleteContact={deleteContact} />
       </ContainerForm>
       <ToastContainer autoClose={3000} />
     </>
