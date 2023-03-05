@@ -1,4 +1,6 @@
 import { persistReducer } from 'redux-persist';
+import { nanoid } from 'nanoid';
+import { toast } from 'react-toastify';
 import storage from 'redux-persist/lib/storage';
 const { createSlice } = require('@reduxjs/toolkit');
 
@@ -7,28 +9,40 @@ const contactsSlice = createSlice({
   initialState: { contacts: [] },
   reducers: {
     contactsArray(data, action) {
+      const { name, number } = action.payload;
+
+      const contact = {
+        id: nanoid(),
+        name: name,
+        number: number,
+      };
+
+      const namesArray = data.contacts.map(contact => {
+        return contact.name;
+      });
+
       switch (action.type) {
         case 'contacts/contactsArray':
-          // return [...data.contacts, action.payload];
-          // data += action.payload;
-          data.contacts.push(action.payload);
-
+          if (namesArray.find(person => person === name)) {
+            toast.error('Такое уже есть');
+          } else {
+            data.contacts.push(contact);
+          }
           return;
         default:
           break;
       }
     },
-    deleteId(data, action) {
-      switch (action.type) {
-        case 'contacts/deleteId':
-          data.contacts.filter(contact => contact.id !== action.payload);
-          return;
-        default:
-          break;
-      }
-      // console.log(action.type);
-      //  data.contacts.filter(contact => contact.id !== action.payload);
-    },
+  },
+  deleteId(data, action) {
+    switch (action.type) {
+      case 'contacts/deleteId':
+        data.contacts.filter(contact => contact.id !== action.payload);
+        return;
+      default:
+        break;
+    }
+    // console.log(action.type);
   },
 });
 
